@@ -13,8 +13,7 @@ lazy val commonSettings = Seq(
   test in assembly := {}
 )
 
-lazy val morphology_model = (project in file(".")).
-  settings(commonSettings: _*)
+lazy val morphology_model = (project in file(".")).settings(commonSettings: _*)
 
 scalaVersion := "2.12.4"
 
@@ -22,7 +21,10 @@ javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 
 libraryDependencies ++= {
 
-  Seq(
-    "com.alphasystem.arabic" % "arabic-support" % "3.0.0-SNAPSHOT"
-  )
+  Seq("com.alphasystem.arabic" % "arabic-support" % "3.0.0-SNAPSHOT")
 }
+
+//Scalafmt - Code Formatter
+scalafmtOnCompile in ThisBuild := true // all projects
+scalafmtOnCompile := true // current project
+scalafmtOnCompile in Compile := true // current project, specific configuration
