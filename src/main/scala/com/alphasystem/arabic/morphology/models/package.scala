@@ -2,7 +2,7 @@ package com.alphasystem.arabic.morphology
 
 import com.alphasystem.arabic.model._
 import com.alphasystem.arabic.model.ArabicLetterType.{ AIN, FA, LAM }
-import com.alphasystem.arabic.morphology.model.support.SarfTermType
+import com.alphasystem.arabic.morphology.model.support.{ Flexibility, SarfTermType }
 
 /**
   * @author sali
@@ -60,4 +60,16 @@ package object models {
       RootWord(radicals, arabicWord, arabicWord)
     }
   }
+
+  trait RootWordSupport extends ArabicSupport {
+    def rootWord: RootWord
+  }
+
+  trait NounSupport extends RootWordSupport {
+    def name: String
+    def feminine: Boolean
+    def flexibility: Flexibility
+  }
+
+  trait VerbSupport extends RootWordSupport
 }
