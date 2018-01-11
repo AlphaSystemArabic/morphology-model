@@ -1,7 +1,7 @@
 package com.alphasystem.arabic.morphology.conjugation.engine
 
-import com.alphasystem.arabic.model.{NamedTemplate, RootType, VerbType, WeakVerbType}
-import com.alphasystem.arabic.morphology.model.support.{PageOrientation, SortDirection, SortDirective}
+import com.alphasystem.arabic.model.{ NamedTemplate, RootType, VerbType, WeakVerbType }
+import com.alphasystem.arabic.morphology.model.support.{ PageOrientation, SortDirection, SortDirective }
 
 /**
   * @author sali
