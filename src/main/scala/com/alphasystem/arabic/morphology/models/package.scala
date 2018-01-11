@@ -42,10 +42,22 @@ package object models {
   case class RootWord(radicals: Radicals,
                       baseWord: ArabicWord,
                       rootWord: ArabicWord,
-                      sarfTermType: SarfTermType,
-                      sarfMemberType: SarfMemberType)
+                      sarfTermType: Option[SarfTermType] = None,
+                      sarfMemberType: Option[SarfMemberType] = None)
       extends ArabicSupport {
 
     override def toLabel: ArabicWord = rootWord
+  }
+
+  object RootWord {
+    def createRootWord(radicals: Radicals): RootWord = {
+      val seq = radicals.fourthRadical match {
+        case Some(value) =>
+          Seq(radicals.firstRadical.letter, radicals.secondRadical.letter, radicals.thirdRadical.letter, value.letter)
+        case None => Seq(radicals.firstRadical.letter, radicals.secondRadical.letter, radicals.thirdRadical.letter)
+      }
+      val arabicWord = new ArabicWord(seq: _*)
+      RootWord(radicals, arabicWord, arabicWord)
+    }
   }
 }
