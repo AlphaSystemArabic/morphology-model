@@ -39,9 +39,16 @@ package object models {
                       thirdRadical: Radical,
                       fourthRadical: Option[Radical] = None)
 
-  case class RootWord(radicals: Radicals,
-                      baseWord: ArabicWord,
+  case class RootWord(baseWord: ArabicWord,
                       rootWord: ArabicWord,
+                      firstRadicalIndex: Int = 0,
+                      secondRadicalIndex: Int = 1,
+                      thirdRadicalIndex: Int = 2,
+                      mayBeFourthRadicalIndex: Option[Int] = None,
+                      firstRadical: ArabicLetter = ArabicLetters.FA_WITH_FATHA,
+                      secondRadical: ArabicLetter = ArabicLetters.AIN_WITH_FATHA,
+                      thirdRadical: ArabicLetter = ArabicLetters.LAM_WITH_FATHA,
+                      mayBeFourthRadical: Option[ArabicLetter] = None,
                       sarfTermType: Option[SarfTermType] = None,
                       sarfMemberType: Option[SarfMemberType] = None)
       extends ArabicSupport {
@@ -50,25 +57,39 @@ package object models {
   }
 
   object RootWord {
-    def createRootWord(radicals: Radicals): RootWord = {
-      val seq = radicals.fourthRadical match {
-        case Some(value) =>
-          Seq(radicals.firstRadical.letter, radicals.secondRadical.letter, radicals.thirdRadical.letter, value.letter)
-        case None => Seq(radicals.firstRadical.letter, radicals.secondRadical.letter, radicals.thirdRadical.letter)
-      }
-      val arabicWord = new ArabicWord(seq: _*)
-      RootWord(radicals, arabicWord, arabicWord)
+    def createRootWord(firstRadicalIndex: Int,
+                       secondRadicalIndex: Int,
+                       thirdRadicalIndex: Int,
+                       mayBeFourthRadicalIndex: Option[Int],
+                       arabicLetters: ArabicLetter*): RootWord = {
+      val arabicWord = new ArabicWord(arabicLetters: _*)
+      RootWord(
+        arabicWord,
+        arabicWord,
+        firstRadicalIndex,
+        secondRadicalIndex,
+        thirdRadicalIndex,
+        mayBeFourthRadicalIndex
+      )
+    }
+
+    def createRootWord(firstRadicalIndex: Int,
+                       secondRadicalIndex: Int,
+                       thirdRadicalIndex: Int,
+                       arabicLetters: ArabicLetter*): RootWord = {
+      val arabicWord = new ArabicWord(arabicLetters: _*)
+      RootWord(arabicWord, arabicWord, firstRadicalIndex, secondRadicalIndex, thirdRadicalIndex, None)
     }
   }
 
   trait RootWordSupport extends ArabicSupport {
-    def rootWord: RootWord
+    val rootWord: RootWord
   }
 
   trait NounSupport extends RootWordSupport {
-    def name: String
-    def feminine: Boolean
-    def flexibility: Flexibility
+    val name: String
+    val feminine: Boolean
+    val flexibility: Flexibility
   }
 
   trait VerbSupport extends RootWordSupport
