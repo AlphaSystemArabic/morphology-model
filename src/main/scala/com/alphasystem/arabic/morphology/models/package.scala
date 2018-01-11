@@ -34,11 +34,16 @@ package object models {
 
   case class Radical(letter: ArabicLetter, index: Int)
 
-  case class RootWord(rootLetters: RootLetters,
-                      sarfTermType: SarfTermType,
-                      sarfMemberType: SarfMemberType,
+  case class Radicals(firstRadical: Radical,
+                      secondRadical: Radical,
+                      thirdRadical: Radical,
+                      fourthRadical: Option[Radical] = None)
+
+  case class RootWord(radicals: Radicals,
                       baseWord: ArabicWord,
-                      rootWord: ArabicWord)
+                      rootWord: ArabicWord,
+                      sarfTermType: SarfTermType,
+                      sarfMemberType: SarfMemberType)
       extends ArabicSupport {
 
     override def toLabel: ArabicWord = rootWord
